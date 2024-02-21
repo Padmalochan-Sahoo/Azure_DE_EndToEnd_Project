@@ -1,0 +1,62 @@
+      ########## Implementation Guide ############
+
+Overview :-
+This implementation guide describes the end-to-end data processing pipeline from capturing real-time data using Azure IoT Hub to storing and processing it in Azure Synapse Analytics.
+
+Architecture :-
+
+Azure IoT Hub: Capture real-time data from IoT devices.
+
+Azure Stream Analytics: Process and transform data in real-time using Stream Analytics. Configure an output to send data to Azure Event Hub.
+
+Azure Event Hub: Receive processed data from Stream Analytics. Configure an Azure Function to be triggered when new data is available.
+
+Azure Function: Use an Azure Function to write data from Event Hub to Azure Cosmos DB.
+
+Azure Data Factory (ADF) Pipeline: Create an ADF pipeline to copy data from Cosmos DB to Azure Data Lake Storage Gen2 (ADLS Gen2).
+
+Azure Synapse Analytics: Process data using Azure Synapse Analytics (formerly Azure SQL Data Warehouse). Use Spark for data processing and write the processed data to Azure SQL Database.
+
+Implementation Steps :-
+
+1. Azure IoT Hub
+Set up an IoT Hub to ingest data from IoT devices.
+Configure IoT devices to send telemetry data to the IoT Hub.
+
+2. Azure Stream Analytics
+Create a Stream Analytics job.
+Define input as IoT Hub and output as Event Hub.
+Define transformations and filters as needed.
+
+3. Azure Event Hub
+Set up an Event Hub to receive data from Stream Analytics.
+Configure Azure Function to be triggered when new data arrives.
+
+4. Azure Function
+Write an Azure Function to process data from Event Hub.
+Use Azure Cosmos DB SDK to write data to Cosmos DB.
+
+5. Azure Data Factory (ADF) Pipeline
+Create an ADF pipeline to copy data from Cosmos DB to ADLS Gen2.
+Define source and sink datasets and configure data movement activities.
+
+6. Azure Synapse Analytics
+Create a Synapse workspace.
+Use Synapse Spark to process data. Write Spark jobs to transform and analyze data.
+Store the processed data in Azure SQL Database for further analysis.
+
+         ###### Deployment Steps #######
+
+Deploy IoT Hub and configure devices.
+Set up Stream Analytics and define the job to process data.
+Configure Event Hub to receive processed data.
+Implement and deploy Azure Function to write data to Cosmos DB.
+Set up ADF pipeline for data movement.
+Configure and deploy Synapse Analytics for Spark processing.
+
+        ###### Dependencies #######
+
+Azure subscription and necessary permissions.
+Access to IoT devices and their configurations.
+Knowledge of Stream Analytics SQL-like queries.
+Understanding of Cosmos DB and Event Hub configurations.
