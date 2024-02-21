@@ -1,0 +1,29 @@
+{
+    "scriptFile": "__init__.py",
+    "bindings": [
+      {
+        "name": "azeventhub",
+        "type": "eventHubTrigger",
+        "direction": "in",
+        "eventHubName": "o2arena_data",
+        "connection": "projectevent_RootManageSharedAccessKey_EVENTHUB",
+        "cardinality": "many",
+        "dataType": "binary"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "out"
+      },
+      {
+        "name": "outputDocument",
+        "type": "cosmosDB",
+        "direction": "out",
+        "databaseName": "my-database",
+        "collectionName": "my-container",
+        "createIfNotExists": true,
+        "connectionStringSetting": "CosmosDbConnectionString"
+      }
+    ]
+  }
+  

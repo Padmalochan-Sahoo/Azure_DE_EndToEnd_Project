@@ -1,0 +1,61 @@
+#Create Stream Analytics Consumer:
+
+from azure.eventhub import EventHubConsumerClient
+
+def on_event(partition_context, event):
+    # Your logic to process the event
+    print("Received event from partition: {}".format(partition_context.partition_id))
+    print(event.body_as_str())
+
+def read_from_stream_analytics():
+    consumer_client = EventHubConsumerClient.from_connection_string(
+        "your_eventhub_connection_string",
+        consumer_group="$Default",
+        eventhub_name="your_eventhub_name",
+    )
+
+    try:
+        with consumer_client:
+            consumer_client.receive(
+                on_event=on_event,
+                starting_position="-1",  # Start from the latest available event
+            )
+    except KeyboardInterrupt:
+        print("Receiving has stopped.")
+
+
+#Write to MySQL:
+
+import mysql.connector
+
+def write_to_mysql(data):
+    connection = mysql.connector.connect(
+        host="your_mysql_host",
+        user="your_mysql_user",
+        password="your_mysql_password",
+        database="your_mysql_database",
+    )
+
+    cursor = connection.cursor()
+
+    # Your logic to insert data into MySQL
+    insert_query = "INSERT INTO your_table (column1, column2) VALUES (%s, %s)"
+    cursor.executemany(insert_query, data)
+
+    connection.commit()
+
+    cursor.close()
+    connection.close()
+
+
+#Integrate Both Functions:
+
+def main():
+    stream_analytics_data = read_from_stream_analytics()
+
+    if stream_analytics_data:
+        write_to_mysql(stream_analytics_data)
+
+if __name__ == "__main__":
+    main()
+

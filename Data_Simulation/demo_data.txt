@@ -1,0 +1,38 @@
+import pandas as pd
+import random
+from datetime import datetime, timedelta
+
+# Set a seed for reproducibility
+random.seed(42)
+
+# Function to generate random data with specified constraints
+def generate_location_data(num_records):
+    user_names = ["user_" + str(i) for i in range(1, num_records + 1)]
+
+    data = {
+        "user_name": random.choices(user_names, k=num_records),
+        "latitude": [random.uniform(51.5030, 51.5035) for _ in range(num_records)],
+        "longitude": [random.uniform(0.0032, 0.0037) for _ in range(num_records)],
+        "entry_time": [],
+        "exit_time": []
+    }
+
+    # Generate entry and exit times with gaps
+    for _ in range(num_records):
+        entry_time = datetime.now() - timedelta(days=random.randint(1, 365),
+                                               minutes=random.randint(0, 23 * 60 + 59),
+                                               seconds=random.randint(0, 59))
+        exit_time = entry_time + timedelta(minutes=random.randint(20, 50))
+        data["entry_time"].append(entry_time.strftime("%Y/%m/%d %H.%M.%S"))
+        data["exit_time"].append(exit_time.strftime("%Y/%m/%d %H.%M.%S"))
+
+    return pd.DataFrame(data)
+
+# Generate 100,000 records
+num_records = 10
+sample_data = generate_location_data(num_records)
+
+# Save the generated data to a CSV file
+sample_data.to_csv("C:/Users/admin/Desktop/Major_capstone/sample1_data.csv", index=False)
+
+#print("Sample data generated and saved to 'sample_data.csv'")
